@@ -8,6 +8,8 @@ import { siteData } from "lib/site-data";
 import { Layout, Section, SectionContent } from "components/layout";
 import { Projects, JoinUs } from "components/sections";
 import { ThemeContext } from "styled-components";
+import { StringsContext } from "components/useStrings";
+import strings from "content/strings.json";
 
 import {
   Hero,
@@ -28,6 +30,7 @@ const Page: NextPage<PageProps> = ({ projects, partners }) => {
   const displayBanner = !!router.query.banner;
 
   return (
+    <StringsContext.Provider value={strings}>
     <Layout showBanner={displayBanner}>
       <Section>
         <Hero />
@@ -65,6 +68,7 @@ const Page: NextPage<PageProps> = ({ projects, partners }) => {
         </Section>
       )}
     </Layout>
+    </StringsContext.Provider>
   );
 };
 

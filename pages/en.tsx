@@ -2,7 +2,7 @@ import { NextPage, GetStaticProps } from "next";
 import { PortalPartner } from "lib/portal-types";
 import { Layout, Section, SectionContent } from "components/layout";
 import { ThemeContext } from "styled-components";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import {
   Hero,
   OurValues,
@@ -11,6 +11,8 @@ import {
   Partners,
 } from "components/home";
 import { siteData } from "lib/site-data";
+import { StringsContext } from "components/useStrings";
+import strings from "content/strings-en.json";
 
 type PageProps = {
   partners: PortalPartner[];
@@ -18,7 +20,9 @@ type PageProps = {
 
 const Page: NextPage<PageProps> = ({ partners }) => {
   const theme = useContext(ThemeContext);
+  
   return (
+    <StringsContext.Provider value={strings}>
     <Layout lang="en">
       <Section>
         <Hero lang="en" />
@@ -42,6 +46,7 @@ const Page: NextPage<PageProps> = ({ partners }) => {
         </SectionContent>
       </Section>
     </Layout>
+    </StringsContext.Provider>
   );
 };
 

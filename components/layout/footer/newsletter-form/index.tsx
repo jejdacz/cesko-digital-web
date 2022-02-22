@@ -9,7 +9,7 @@ export interface NewsletterFormValues {
 }
 
 const Newsletter: React.FC = () => {
-  const strings = useStrings();  
+  const strings = useStrings();
   const msg = strings.components.sections.footer.newsletter;
   const validate = useValidateNewsletter(msg);
   const [onSubmit, hasServerError, hasSubscribed] = useOnSubmitNewsletter();
@@ -104,7 +104,10 @@ type ValidateFunction = (
   values: NewsletterFormValues
 ) => FormikErrors<NewsletterFormValues>;
 
-export const useValidateNewsletter = (msg: {emailRequiredError: string, invalidEmailError:string}): ValidateFunction => {
+export const useValidateNewsletter = (msg: {
+  emailRequiredError: string;
+  invalidEmailError: string;
+}): ValidateFunction => {
   const validate = ({ email }: NewsletterFormValues) => {
     if (!email || email.length === 0) {
       return {

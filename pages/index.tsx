@@ -1,5 +1,5 @@
 import type { NextPage, GetStaticProps } from "next";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 import { useContext } from "react";
 
 import { PortalPartner, PortalProject } from "lib/portal-types";
@@ -8,8 +8,6 @@ import { siteData } from "lib/site-data";
 import { Layout, Section, SectionContent } from "components/layout";
 import { Projects, JoinUs } from "components/sections";
 import { ThemeContext } from "styled-components";
-import { StringsContext } from "components/useStrings";
-import strings from "content/strings.json";
 
 import {
   Hero,
@@ -29,14 +27,15 @@ const Page: NextPage<PageProps> = ({ projects, partners }) => {
   const router = useRouter();
   const displayBanner = !!router.query.banner;
 
+  const lang = router.locale === "en" ? "en" : "cs";
+
   return (
-    <StringsContext.Provider value={strings}>
-    <Layout showBanner={displayBanner}>
+    <Layout showBanner={displayBanner} lang={lang}>
       <Section>
-        <Hero />
+        <Hero lang={lang} />
       </Section>
 
-      <Numbers />
+      <Numbers lang={lang} />
 
       <Section>
         <SectionContent>
@@ -52,7 +51,7 @@ const Page: NextPage<PageProps> = ({ projects, partners }) => {
 
       <Section backgroundColor={theme.colors.pebble}>
         <SectionContent>
-          <OurValues />
+          <OurValues lang={lang} />
         </SectionContent>
       </Section>
 
@@ -63,12 +62,11 @@ const Page: NextPage<PageProps> = ({ projects, partners }) => {
       {partners.length > 0 && (
         <Section>
           <SectionContent>
-            <Partners partners={partners} />
+            <Partners partners={partners} lang={lang} />
           </SectionContent>
         </Section>
       )}
     </Layout>
-    </StringsContext.Provider>
   );
 };
 

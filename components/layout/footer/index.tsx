@@ -3,15 +3,10 @@ import NewsletterBox from "./newsletter-form";
 import * as S from "./styles";
 import { Route } from "lib/routing";
 import { Link } from "components/links";
-import csstrings from "content/strings.json";
-import enstrings from "content/strings-en.json";
+import useStrings from "components/useStrings";
 
-interface Props {
-  lang?: "cs" | "en";
-}
-
-const Footer: React.FC<Props> = ({ lang = "cs" }) => {
-  const strings = lang === "cs" ? csstrings : enstrings;
+const Footer: React.FC = () => {
+  const strings = useStrings();
   const footer = strings.components.sections.footer;
 
   const o = footer.online;

@@ -6,18 +6,46 @@ import { ButtonSize } from "components/buttons";
 import { CloseIcon, MenuIcon } from "components/icons";
 import { Route } from "lib/routing";
 import * as S from "./styles";
-import strings from "content/strings.json";
+import useStrings from "components/useStrings";
 
-const HeaderCS: React.FC = () => {
+const LangMenu: React.FC = () => {
+  const { strings, lang } = useStrings();
+  return (
+    <>
+      {lang !== "cs" && (
+        <Link key="czech" to={"/"} size={ButtonSize.Small}>
+          {strings.header.czech}
+        </Link>
+      )}
+      {lang !== "en" && (
+        <Link key="english" to={"/en/"} size={ButtonSize.Small}>
+          {strings.header.english}
+        </Link>
+      )}
+    </>
+  );
+};
+
+const Header: React.FC = () => {
+  const { strings, lang } = useStrings();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const menu = [
+  const menuCS = [
     [Route.projects, strings.header.projects],
     [Route.dashboard, strings.header.dashboard],
     [Route.partners, strings.header.partners],
     [Route.blog, "Blog"],
     [Route.supportUs, strings.header.supportUs],
   ];
+
+  const menuEN = [
+    [Route.projects, strings.header.projects],
+    [Route.partners, strings.header.partners],
+    [Route.blog, "Blog"],
+    [Route.supportUs, strings.header.supportUs],
+  ];
+
+  const menu = lang === "cs" ? menuCS : menuEN;
 
   return (
     <Section as={"header"}>
@@ -38,15 +66,11 @@ const HeaderCS: React.FC = () => {
               {strings.header.signUp}
             </S.HeaderButton>
 
-            <Link key="english" to={"/en/"} size={ButtonSize.Small}>
-              {strings.header.english}
-            </Link>
+            <LangMenu />
           </S.DesktopLinksContainer>
 
           <S.MobileLinksContainer>
-            <Link key="english" to={"/en/"} size={ButtonSize.Small}>
-              {strings.header.english}
-            </Link>
+            <LangMenu />
             <ButtonAsLink to={Route.joinUs} size={ButtonSize.Small} inverted>
               {strings.header.signUp}
             </ButtonAsLink>
@@ -70,4 +94,4 @@ const HeaderCS: React.FC = () => {
   );
 };
 
-export default HeaderCS;
+export default Header;

@@ -6,7 +6,7 @@ import { Link } from "components/links";
 import useStrings from "components/useStrings";
 
 const Footer: React.FC = () => {
-  const strings = useStrings();
+  const {strings,lang} = useStrings();
   const footer = strings.components.sections.footer;
 
   const o = footer.online;
@@ -19,7 +19,8 @@ const Footer: React.FC = () => {
   ];
 
   const p = footer.pageLinks;
-  const pageLinks = [
+
+  const pageLinksCS = [
     [p.projects, Route.projects],
     [p.dashboard, Route.dashboard],
     [p.blog, Route.blog],
@@ -29,6 +30,18 @@ const Footer: React.FC = () => {
     [p.logo, Route.brandManual],
     [p.mediaContact, "mailto:pr@cesko.digital"],
   ];
+
+  const pageLinksEN = [
+    [p.projects, Route.projects],    
+    [p.blog, Route.blog],
+    [p.loginToSlack, Route.joinUs],
+    [p.submitProject, Route.submitProject],
+    [p.supportUs, Route.supportUs],
+    [p.logo, Route.brandManual],
+    [p.mediaContact, "mailto:pr@cesko.digital"],
+  ];
+
+  const pageLinks = lang === "cs" ? pageLinksCS : pageLinksEN;
 
   return (
     <S.Wrapper>

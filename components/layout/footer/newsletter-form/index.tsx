@@ -9,7 +9,7 @@ export interface NewsletterFormValues {
 }
 
 const Newsletter: React.FC = () => {
-  const strings = useStrings();
+  const {strings} = useStrings();
   const msg = strings.components.sections.footer.newsletter;
   const validate = useValidateNewsletter(msg);
   const [onSubmit, hasServerError, hasSubscribed] = useOnSubmitNewsletter();

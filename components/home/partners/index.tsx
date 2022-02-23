@@ -1,16 +1,14 @@
 import * as S from "./styles";
 import LogoList from "components/logo-list";
-import csstrings from "content/strings.json";
-import enstrings from "content/strings-en.json";
+import useStrings from "components/useStrings";
 import { PortalPartner } from "lib/portal-types";
 
 interface Props {
-  partners: readonly PortalPartner[];
-  lang?: "cs" | "en";
+  partners: readonly PortalPartner[];  
 }
 
-const Partners: React.FC<Props> = ({ partners, lang = "cs" }) => {
-  const strings = lang === "cs" ? csstrings : enstrings;
+const Partners: React.FC<Props> = ({ partners }) => {
+  const {strings} = useStrings();
   return (
     <S.Wrapper>
       <S.MainTitle>

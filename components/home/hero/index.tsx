@@ -1,15 +1,12 @@
 import { Heading1 } from "components/typography";
 import { Route } from "lib/routing";
-import csstrings from "content/strings.json";
-import enstrings from "content/strings-en.json";
+import useStrings from "components/useStrings";
 import * as S from "./styles";
 
-interface Props {
-  lang?: "cs" | "en";
-}
 
-const Hero: React.FC<Props> = ({ lang = "cs" }) => {
-  const strings = lang === "cs" ? csstrings : enstrings;
+
+const Hero: React.FC = () => {
+  const {strings,lang} = useStrings();
   return (
     <S.Section>
       <S.Container>

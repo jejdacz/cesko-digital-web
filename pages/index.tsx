@@ -9,6 +9,8 @@ import { Layout, Section, SectionContent } from "components/layout";
 import { Projects, JoinUs } from "components/sections";
 import { ThemeContext } from "styled-components";
 
+import useStrings from "components/useStrings";
+
 import {
   Hero,
   OurValues,
@@ -27,31 +29,36 @@ const Page: NextPage<PageProps> = ({ projects, partners }) => {
   const router = useRouter();
   const displayBanner = !!router.query.banner;
 
-  const lang = router.locale === "en" ? "en" : "cs";
+  const { lang } = useStrings();
 
   return (
-    <Layout showBanner={displayBanner} lang={lang}>
+    <Layout showBanner={displayBanner}>
       <Section>
-        <Hero lang={lang} />
+        <Hero />
       </Section>
 
-      <Numbers lang={lang} />
+      <Numbers />
 
-      <Section>
-        <SectionContent>
-          <Projects projects={projects.slice(0, 3)} />
-        </SectionContent>
-      </Section>
 
-      <Section>
-        <SectionContent>
-          <JoinUs />
-        </SectionContent>
-      </Section>
+      {lang === "cs" && ( // temporary solution
+        <>
+          <Section>
+            <SectionContent>
+              <Projects projects={projects.slice(0, 3)} />
+            </SectionContent>
+          </Section>
+
+          <Section>
+            <SectionContent>
+              <JoinUs />
+            </SectionContent>
+          </Section>
+        </>
+      )}
 
       <Section backgroundColor={theme.colors.pebble}>
         <SectionContent>
-          <OurValues lang={lang} />
+          <OurValues />
         </SectionContent>
       </Section>
 
@@ -62,7 +69,7 @@ const Page: NextPage<PageProps> = ({ projects, partners }) => {
       {partners.length > 0 && (
         <Section>
           <SectionContent>
-            <Partners partners={partners} lang={lang} />
+            <Partners partners={partners} />
           </SectionContent>
         </Section>
       )}

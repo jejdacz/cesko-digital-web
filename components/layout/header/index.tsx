@@ -8,90 +8,101 @@ import { Route } from "lib/routing";
 import * as S from "./styles";
 import useStrings from "components/useStrings";
 
-const LangMenu: React.FC = () => {
-  const { strings, lang } = useStrings();
-  return (
-    <>
-      {lang !== "cs" && (
-        <Link key="czech" to={"/"} size={ButtonSize.Small}>
-          {strings.header.czech}
-        </Link>
-      )}
-      {lang !== "en" && (
-        <Link key="english" to={"/en/"} size={ButtonSize.Small}>
-          {strings.header.english}
-        </Link>
-      )}
-    </>
-  );
-};
-
 const Header: React.FC = () => {
-  const { strings, lang } = useStrings();
+  const { dictionary, lang } = useStrings();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const menuCS = [
-    [Route.projects, strings.header.projects],
-    [Route.dashboard, strings.header.dashboard],
-    [Route.partners, strings.header.partners],
-    [Route.blog, "Blog"],
-    [Route.supportUs, strings.header.supportUs],
-  ];
+  const renderCS = () => {
+    const strings = dictionary["cs"];
+    const menu = [
+      [Route.projects, strings.header.projects],
+      [Route.dashboard, strings.header.dashboard],
+      [Route.partners, strings.header.partners],
+      [Route.blog, "Blog"],
+      [Route.supportUs, strings.header.supportUs],
+    ];
 
-  const menuEN = [
-    [Route.projects, strings.header.projects],
-    [Route.partners, strings.header.partners],
-    [Route.blog, "Blog"],
-    [Route.supportUs, strings.header.supportUs],
-  ];
+    return (
+      <Section as={"header"}>
+        <SectionContent verticalPadding={0}>
+          <S.Container>
+            <Link to="/" size={ButtonSize.Small}>
+              <S.Logo />
+            </Link>
 
-  const menu = lang === "cs" ? menuCS : menuEN;
+            <S.DesktopLinksContainer>
+              {menu.map(([link, label]) => (
+                <Link key={label} to={link} size={ButtonSize.Small}>
+                  {label}
+                </Link>
+              ))}
 
-  return (
-    <Section as={"header"}>
-      <SectionContent verticalPadding={0}>
-        <S.Container>
-          <Link to="/" size={ButtonSize.Small}>
-            <S.Logo />
-          </Link>
+              <S.HeaderButton
+                to={Route.joinUs}
+                size={ButtonSize.Normal}
+                inverted
+              >
+                {strings.header.signUp}
+              </S.HeaderButton>
 
-          <S.DesktopLinksContainer>
-            {menu.map(([link, label]) => (
-              <Link key={label} to={link} size={ButtonSize.Small}>
-                {label}
+              <Link key={"en"} to={"/"} locale={"en"} size={ButtonSize.Small}>
+                {strings.header.english}
               </Link>
-            ))}
+            </S.DesktopLinksContainer>
 
-            <S.HeaderButton to={Route.joinUs} size={ButtonSize.Normal} inverted>
-              {strings.header.signUp}
-            </S.HeaderButton>
-
-            <LangMenu />
-          </S.DesktopLinksContainer>
-
-          <S.MobileLinksContainer>
-            <LangMenu />
-            <ButtonAsLink to={Route.joinUs} size={ButtonSize.Small} inverted>
-              {strings.header.signUp}
-            </ButtonAsLink>
-            <S.IconButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-              {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-            </S.IconButton>
-          </S.MobileLinksContainer>
-        </S.Container>
-
-        {mobileMenuOpen && (
-          <S.MobileMenu>
-            {menu.map(([link, label]) => (
-              <Link key={label} to={link} size={ButtonSize.Small}>
-                {label}
+            <S.MobileLinksContainer>
+              <Link key={"en"} to={"/"} locale={"en"} size={ButtonSize.Small}>
+                {strings.header.english}
               </Link>
-            ))}
-          </S.MobileMenu>
-        )}
-      </SectionContent>
-    </Section>
-  );
+              <ButtonAsLink to={Route.joinUs} size={ButtonSize.Small} inverted>
+                {strings.header.signUp}
+              </ButtonAsLink>
+              <S.IconButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+                {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
+              </S.IconButton>
+            </S.MobileLinksContainer>
+          </S.Container>
+
+          {mobileMenuOpen && (
+            <S.MobileMenu>
+              {menu.map(([link, label]) => (
+                <Link key={label} to={link} size={ButtonSize.Small}>
+                  {label}
+                </Link>
+              ))}
+            </S.MobileMenu>
+          )}
+        </SectionContent>
+      </Section>
+    );
+  };
+
+  const renderEN = () => {
+    const strings = dictionary["en"];    
+    return (
+      <Section as={"header"}>
+        <SectionContent verticalPadding={0}>
+          <S.Container>
+            <Link to="/" size={ButtonSize.Small}>
+              <S.Logo />
+            </Link>
+            <S.DesktopLinksContainer>
+              <Link key={"cs"} to={"/"} locale={"cs"} size={ButtonSize.Small}>
+                {strings.header.czech}
+              </Link>
+            </S.DesktopLinksContainer>
+            <S.MobileLinksContainer>
+              <Link key={"cs"} to={"/"} locale={"cs"} size={ButtonSize.Small}>
+                {strings.header.czech}
+              </Link>
+            </S.MobileLinksContainer>
+          </S.Container>
+        </SectionContent>
+      </Section>
+    );
+  };
+
+  return lang === "cs" ? renderCS() : renderEN();
 };
 
 export default Header;

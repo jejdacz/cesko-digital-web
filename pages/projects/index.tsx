@@ -3,16 +3,18 @@ import { PortalProject } from "lib/portal-types";
 import { Layout, Section, SectionContent } from "components/layout";
 import { JoinUs } from "components/sections";
 import * as S from "components/project/index-styles";
-import strings from "content/strings.json";
+//import strings from "content/strings.json";
 import { siteData } from "lib/site-data";
 import HighlightedProject from "components/project/highlighted";
 import ProjectList from "components/project/card-list";
+import useStrings from "components/useStrings";
 
 type PageProps = {
   projects: PortalProject[];
 };
 
 const Page: NextPage<PageProps> = ({ projects }) => {
+  const {strings} = useStrings();
   const msg = strings.pages.projects;
   const highlightedProject = projects.find((p) => p.highlighted);
   const otherRunningProjects = projects.filter(

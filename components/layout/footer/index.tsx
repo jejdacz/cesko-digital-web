@@ -6,7 +6,7 @@ import { Link } from "components/links";
 import useStrings from "components/useStrings";
 
 const Footer: React.FC = () => {
-  const {strings,lang} = useStrings();
+  const { strings, lang, dictionary } = useStrings();
   const footer = strings.components.sections.footer;
 
   const o = footer.online;
@@ -18,30 +18,34 @@ const Footer: React.FC = () => {
     [o.youtube, "https://www.youtube.com/channel/UCYMZxCNq_IWI8URpcx2sBwg"],
   ];
 
-  const p = footer.pageLinks;
+  const createPageLinksCS = () => {
+    const p = dictionary["cs"].components.sections.footer.pageLinks;
+    return [
+      [p.projects, Route.projects],
+      [p.dashboard, Route.dashboard],
+      [p.blog, Route.blog],
+      [p.loginToSlack, Route.joinUs],
+      [p.submitProject, Route.submitProject],
+      [p.supportUs, Route.supportUs],
+      [p.logo, Route.brandManual],
+      [p.mediaContact, "mailto:pr@cesko.digital"],
+    ];
+  };
 
-  const pageLinksCS = [
-    [p.projects, Route.projects],
-    [p.dashboard, Route.dashboard],
-    [p.blog, Route.blog],
-    [p.loginToSlack, Route.joinUs],
-    [p.submitProject, Route.submitProject],
-    [p.supportUs, Route.supportUs],
-    [p.logo, Route.brandManual],
-    [p.mediaContact, "mailto:pr@cesko.digital"],
-  ];
+  const createPageLinksEN = () => {
+    const p = dictionary["en"].components.sections.footer.pageLinks;
+    return [
+      [p.projects, Route.projects],
+      [p.blog, Route.blog],
+      [p.loginToSlack, Route.joinUs],
+      [p.submitProject, Route.submitProject],
+      [p.supportUs, Route.supportUs],
+      [p.logo, Route.brandManual],
+      [p.mediaContact, "mailto:pr@cesko.digital"],
+    ];
+  };
 
-  const pageLinksEN = [
-    [p.projects, Route.projects],    
-    [p.blog, Route.blog],
-    [p.loginToSlack, Route.joinUs],
-    [p.submitProject, Route.submitProject],
-    [p.supportUs, Route.supportUs],
-    [p.logo, Route.brandManual],
-    [p.mediaContact, "mailto:pr@cesko.digital"],
-  ];
-
-  const pageLinks = lang === "cs" ? pageLinksCS : pageLinksEN;
+  const pageLinks = { cs: createPageLinksCS(), en: createPageLinksEN() };
 
   return (
     <S.Wrapper>
@@ -52,13 +56,15 @@ const Footer: React.FC = () => {
               <S.Heading>{footer.pageLinks.title}</S.Heading>
               <S.Navigation>
                 <S.Links>
-                  {pageLinks.map(([name, url], i) => (
-                    <S.LinkItem key={i}>
-                      <Link size={ButtonSize.Small} to={url}>
-                        {name}
-                      </Link>
-                    </S.LinkItem>
-                  ))}
+                  {pageLinks[lang as keyof typeof pageLinks].map(
+                    ([name, url], i) => (
+                      <S.LinkItem key={i}>
+                        <Link size={ButtonSize.Small} to={url}>
+                          {name}
+                        </Link>
+                      </S.LinkItem>
+                    )
+                  )}
                 </S.Links>
               </S.Navigation>
             </S.InfoBlock>

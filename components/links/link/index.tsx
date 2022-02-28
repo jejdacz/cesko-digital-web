@@ -1,6 +1,7 @@
 import * as S from "./styles";
 import { ButtonSize } from "components/buttons";
 import { isExternalURL } from "lib/utils";
+import NLink from "next/link";
 
 export interface StyledLinkProps {
   disabled?: boolean;
@@ -11,12 +12,13 @@ export interface LinkProps extends Partial<StyledLinkProps> {
   to: string;
   children: React.ReactNode;
   language?: string;
+  locale?: string | false | undefined;
 }
 
 const Link: React.FC<LinkProps> = ({
   children,
   size = ButtonSize.Normal,
-  to: url,
+  to: url,  
   ...rest
 }: LinkProps) => {
   const href = rest.disabled ? "" : url;
@@ -30,9 +32,9 @@ const Link: React.FC<LinkProps> = ({
     );
   }
   return (
-    <S.InternalLink href={href} {...props}>
-      {children}
-    </S.InternalLink>
+    <NLink href={href} {...props} passHref>
+      <S.InternalLink {...props}>{children}</S.InternalLink>
+    </NLink>
   );
 };
 
